@@ -1,0 +1,53 @@
+
+.main {
+    background-color: #3535ff;
+    height: 94vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    top: -10%;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.back {
+    color: #444444;
+    font-size: 30vw;
+    font-weight: bold;
+}
+
+.front {
+    color: white;
+    font-size: 3vw;
+    position: absolute; /* 수정: 다시 absolute로 변경 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    white-space: nowrap;
+}
+
+.custom-button {
+    margin-top: -5vw;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: #fff;
+    color: #2b2bff;
+    border: none;
+    cursor: pointer;
+}
