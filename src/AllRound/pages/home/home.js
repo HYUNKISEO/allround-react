@@ -12,7 +12,7 @@ const Home = () => {
                     <p className='back'>A</p>
                     <p className='front'>문제풀이와 커뮤니티를<br/> 한곳에 담다. AllRound</p>
                 </div>
-                <button className='custom-button'>Let`s Go!</button>
+                <button className='custom-button' onClick={() => {navigate('/user/login')}}>Let`s Go!</button>
             </div>
         </div>
     );
