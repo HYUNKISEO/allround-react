@@ -1,13 +1,33 @@
-import React, {useState} from 'react';
-import {Nav, Navbar} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Nav, Navbar, NavbarText} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 const Header = () => {
     const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(token && !loggedIn) {
+            const decoded = jwtDecode(token);
+            setUser(decoded);
+            setLoggedIn(true);
+        }
+    }, [loggedIn]);
+
+    const logout = () => {
+        localStorage.removeItem('token')
+        setLoggedIn(false);
+        navigate("/")
+        alert("Logout 완료")
+    }
+
     return (
         <>
             <Navbar bg='dark' data-bs-theme='dark'>
-                <Link to='/' className='navbar-brand'>Home</Link>
+                <Link to='/' className='navbar-brand mx-2'>Home</Link>
                 <Nav className='me-auto'>
                     <Link to='/basic' className='nav-link'>기본</Link>
                     <Link to='/share' className='nav-link'>공유</Link>
@@ -18,11 +38,11 @@ const Header = () => {
                 <Nav>
                     {loggedIn ? (
                         <>
-                            <Nav.Text>{`000님 환영합니다`}</Nav.Text>
-                            <Nav.Link>로그아웃</Nav.Link>
+                            <NavbarText className='text-white'>{`${user.name}님 환영합니다👋`}</NavbarText>
+                            <Nav.Link onClick={logout}>로그아웃</Nav.Link>
                         </>
                     ) : (
-                        <Nav.Link>로그인</Nav.Link>
+                        <Nav.Link as={Link} to='/user/login'>로그인</Nav.Link>
                     )}
                 </Nav>
             </Navbar>
