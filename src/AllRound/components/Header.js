@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Nav, Navbar, NavbarCollapse, NavbarText, NavbarToggle} from "react-bootstrap";
+import {Nav, Navbar, NavbarCollapse, NavbarText, NavbarToggle, NavDropdown} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import "./Header.css";
 
 const Header = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -37,8 +38,12 @@ const Header = () => {
                 <Nav className='me-auto'>
                     <Link to='/basic' className='nav-link'>기본</Link>
                     <Link to='/share' className='nav-link'>공유</Link>
-                    <Link to='/board' className='nav-link'>게시판</Link>
-                    <Link to='/testinfo' className='nav-link'>시험</Link>
+                    <Link to='/board/list' className='nav-link'>게시판</Link>
+                    <NavDropdown title='시험' id='exam-dropdown'>
+                        <Link to='/testinfo' className='dropdown-item'>일정정보</Link>
+                        <Link to='/testinfo/book' className='dropdown-item'>최신서적</Link>
+                        {/* 다른 시험과 관련된 링크들 추가 가능 */}
+                    </NavDropdown>
                     <Link to='/yotube' className='nav-link'>강의</Link>
                 </Nav>
                 <Nav>
