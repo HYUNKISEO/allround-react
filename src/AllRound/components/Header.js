@@ -6,15 +6,17 @@ import "./Header.css";
 
 const Header = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if(token && !loggedIn) {
+        if(token) {
             const decoded = jwtDecode(token);
             setUser(decoded);
             setLoggedIn(true);
+        } else {
+            setLoggedIn(false)
         }
     }, [loggedIn]);
 
@@ -23,6 +25,7 @@ const Header = () => {
         setLoggedIn(false);
         navigate("/")
         alert("Logout 완료")
+        window.location.reload()
     }
 
     function GoMyPage() {
@@ -47,6 +50,7 @@ const Header = () => {
                     <Link to='/yotube' className='nav-link'>강의</Link>
                 </Nav>
                 <Nav>
+                    {user.auth === "ROLE_ADMIN,ROLE_MEMBER" && <Nav.Link as={Link} to='/admin' className='nav-link'>관리자 페이지</Nav.Link>}
                     {loggedIn ? (
                         <>
                             <NavbarText className='text-white' onClick={GoMyPage}  style={{ cursor: 'pointer' }}>{`${user.name}님 환영합니다👋`}</NavbarText>

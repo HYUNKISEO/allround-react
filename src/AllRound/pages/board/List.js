@@ -15,7 +15,6 @@ const List = () => {
     const [pageNumber, setPageNumber] = useState(0);
     const [sortOption, setSortOption] = useState('기본'); // 정렬 옵션 추가
     const navigate = useNavigate();
-    console.log(posts)
 
     useEffect(() => {
         fetch(`http://localhost:8080/board/post/list?pageNumber=${pageNumber}&pageSize=12&sort=${sortOption}`, {
@@ -66,7 +65,7 @@ const List = () => {
                     </span>
                 </div>
             <Table className='text-center'>
-                <thead>
+                <thead className='table-success'>
                 <tr>
                     <th>번호</th>
                     <th>카테고리</th>

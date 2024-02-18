@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {Container, Table } from "react-bootstrap";
 import {Link} from "react-router-dom";
+import Book from "./Book";
 
 const H2 = styled.h2`
   color: green;
