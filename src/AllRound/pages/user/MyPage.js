@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {jwtDecode} from "jwt-decode";
-import {Button, Col, Container, Row, Table} from "react-bootstrap";
+import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import styled from "styled-components";
+import {Link, useNavigate} from "react-router-dom";
+import Header from "../../components/Header";
 
 
 const UserInfoRow = ({ label, value }) => (
     <tr>
         <th style={{ whiteSpace: 'nowrap', letterSpacing: '0.2rem', textAlign: 'center', fontSize: '2vh'}}>{label}</th>
-        <td className='p-2' style={{ textAlign: 'center', fontSize: '2vh'}} >{label === '연 락 처' ? value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3') : value}</td>
+        <td className='p-2' style={{ textAlign: 'center', fontSize: '2vh'}} >
+            {label === '연 락 처' && value ? value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3') : value}</td>
     </tr>
 );
 
@@ -20,14 +23,24 @@ const H2 = styled.h2`
 
 const MyPage = () => {
     const [user, setUser] = useState({
-        id:null,
+        id:0,
         username:'',
         name: '',
         dob:'',
         phone:'',
         createdTime:''
     });
-
+    const [posts, setPosts] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const [info, setInfo] = useState({
+        userId: user.id,
+        password: '',
+        newpassword: '',
+        repassword: '',
+        phone:'',
+    });
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -54,7 +67,90 @@ const MyPage = () => {
                     createdTime: data.create_time
                 })
             })
+        fetch("http://localhost:8080/board/post/mylist/" + decodedToken.userId, {
+            headers: {'Content-Type': 'application/json;charset=utf-8'}
+        })
+            .then(reponse => reponse.json())
+            .then(data => setPosts(data))
     }, []);
+
+    const handleShowForm = () => {
+        setShowForm(prevShowForm => !prevShowForm);
+    };
+
+    const changeValue = (e) => {
+        setInfo({
+            ...info,
+            [e.target.name]: e.target.value,
+            userId: user.id,
+        });
+        setErrors({...errors, [e.target.name]: ''})
+    }
+
+    const handleUpdateProfile = (e) => {
+        e.preventDefault();
+        let isValid = true;
+        if(info.phone && !info.phone.trim().match(/^[0-9]{10,11}$/)) {
+            isValid = false ;
+            setErrors({...errors, phone: '10~11자리 숫자만 입력하세요.'});
+        } else if (info.newpassword != info.repassword) {
+            isValid = false;
+            setErrors({...errors, newpassword: '비밀번호와 확인이 맞지 않습니다.'});
+        } else if (!info.newpassword.trim()) {
+            isValid = false;
+            setErrors({...errors, newpassword: ' 필수 입력입니다.'});
+        } else if (!info.repassword.trim()) {
+            isValid = false;
+            setErrors({...errors, repassword: '필수 입력입니다.'});
+        } else if (!info.password.trim()){
+            isValid = false;
+            setErrors({...errors, password: '필수 입력입니다.'})
+        } else if (info.password === info.newpassword){
+            isValid = false;
+            setErrors({...errors, newpassword: '현재 비밀번호와 같을 수 없습니다.'})
+        }
+        if(!isValid){
+            return;
+        }
+
+        fetch("http://localhost:8080/user/update", {
+            method: "PUT",
+            headers: {'Content-Type': 'application/json;charset=utf-8'},
+            body: JSON.stringify(info)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        alert(data.message)
+                    })
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data != null){
+                    alert("정보가 변경되어 로그아웃 됩니다.")
+                    navigate("/user/login")
+                    localStorage.removeItem('token')
+                }
+            })
+    }
+
+    const removeUser = () => {
+        fetch("http://localhost:8080/user/delete/" + user.id, {
+            method: "DELETE",
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data == '1') {
+                    alert('삭제 성공', data);
+                    navigate('/');
+                    localStorage.removeItem('token')
+                    window.location.reload()
+                } else {
+                    alert('삭제실패', data);
+                }
+            });
+    }
 
     return (
         <Container fluid className='mt-4'>
@@ -73,23 +169,93 @@ const MyPage = () => {
                         </tbody>
                     </Table>
                     <div className='d-grid gap-2'>
-                        <Button variant="success text-white">
+                        <Button variant="success text-white" onClick={handleShowForm}>
                             회원 수정
                         </Button>
-                        <Button variant="danger" >
+                        <Button variant="danger" onClick={removeUser}>
                             회원 탈퇴
                         </Button>
                     </div>
 
-                    <H2 className='mt-3'>기본문제 현황</H2>
-                    <hr/>
+                    <H2 className='mt-3'> 회원정보 수정</H2><hr/>
+                    {!showForm  && <div style={{textAlign: 'center', fontSize: '19vh', letterSpacing: '-0.1em' ,lineHeight: '0.8', fontWeight: 'bold' }}><div>ALL</div><div>ROUND</div></div>}
+                    {showForm && (
+                        <Form className='mt-3'>
+                            <Form.Group controlId='formContact'>
+                                <Form.Label>통신장치</Form.Label>{errors.phone && <span className='text-danger'>{errors.phone}</span>}
+                                <Form.Control
+                                    type='text'
+                                    placeholder='숫자만 입력하세요.'
+                                    name='phone'
+                                    onChange={changeValue}
+                                />
+                            </Form.Group>
 
+                            <Form.Group controlId='nowPassword'>
+                                <Form.Label>현재 비밀번호</Form.Label>{errors.password && <span className='text-danger'>{errors.password}</span>}
+                                <Form.Control
+                                    type='password'
+                                    placeholder='현재 비밀번호를 입력하세요.'
+                                    name='password'
+                                    onChange={changeValue}
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId='formNewPassword'>
+                                <Form.Label>새 비밀번호</Form.Label>{errors.newpassword && <span className='text-danger'>{errors.newpassword}</span>}
+                                <Form.Control
+                                    type='password'
+                                    placeholder='새 비밀번호를 입력하세요.'
+                                    name='newpassword'
+                                    onChange={changeValue}
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId='formRePassword'>
+                            <Form.Label>비밀번호 확인</Form.Label>{errors.repassword && <span className='text-danger'>{errors.repassword}</span>}
+                            <Form.Control
+                                type='password'
+                                placeholder='새 비밀번호를 입력하세요.'
+                                name='repassword'
+                                onChange={changeValue}
+                            />
+                            </Form.Group>
+                            <div className='d-grid gap-1 mt-2 mb-1'>
+                            <Button variant='success' onClick={handleUpdateProfile}>
+                                저장
+                            </Button>
+                            </div>
+                        </Form>)}
                 </Col>
 
                 <Col sm={12} md={6}>
                     <Row>
                         <Col>
-                            <H2>나의 게시글 목록</H2>
+                            <H2>나의 게시글 목록</H2><hr/>
+                            <div style={{height: "40vh", overflowY: "auto"}}>
+                            <Table className='text-center'>
+                                <thead className='table-success' style={{ position: "sticky", top: "0", zIndex: "1" }}>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>카테고리</th>
+                                    <th>제목</th>
+                                    <th>조회수</th>
+                                    <th>작성일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {posts.map(post => (
+                                    <tr key={post.id}>
+                                        <td>{post.id}</td>
+                                        <td>{post.category}</td>
+                                        <td><Link to={`/board/post/${post.id}`}>{post.subject}</Link></td>
+                                        <td>{post.viewCnt}</td>
+                                        <td>{post.createTime}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
+                            </div>
                         </Col>
                     </Row>
 

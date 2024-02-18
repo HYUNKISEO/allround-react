@@ -11,6 +11,8 @@ import Book from "./pages/testinfo/Book";
 import List from "./pages/board/List";
 import Write from "./pages/board/Write";
 import Detail from "./pages/board/Detail";
+import Update from "./pages/board/Update";
+import Admin from "./pages/admin/Admin";
 
 const Allround = () => {
     return (
@@ -26,7 +28,8 @@ const Allround = () => {
                 <Route path='/board/list' element={<AuthCheck><List/></AuthCheck>}/>
                 <Route path='/board/write' element={<AuthCheck><Write/></AuthCheck>}/>
                 <Route path='/board/post/:id' element={<AuthCheck><Detail/></AuthCheck>}/>
-                <Route path='/board/update/:id' element={<AuthCheck><Detail/></AuthCheck>}/>
+                <Route path='/board/update/:id' element={<AuthCheck><Update/></AuthCheck>}/>
+                <Route path='/admin' element={<AuthCheck><Admin/></AuthCheck>}/>
             </Routes>
         </div>
     );

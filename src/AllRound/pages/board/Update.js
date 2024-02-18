@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import styled from "styled-components";
-import {json, useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Form} from "react-bootstrap";
-import {jwtDecode} from "jwt-decode";
-import "react-quill/dist/quill.snow.css";
-import ReactQuill, {Quill} from "react-quill";
+import ReactQuill from "react-quill";
+import styled from "styled-components";
 
 const H2 = styled.h2`
   margin-top: 1.5vh;
@@ -13,41 +11,37 @@ const H2 = styled.h2`
   font-weight: bold;
 `;
 
-const Write = () => {
-    const [post, setPost] = useState({
-        userId: 0,
-        username: '',
-        subject: '',
-        content: '',
-        category: '',
-    });
-    const [errors, setErrors] = useState({});
+const Update = () => {
+
+    let {id} = useParams();
     const navigate = useNavigate();
+    const [post, setPost] = useState([]);
+    const [errors, setErrors] = useState({});
+    console.log(post)
+
+    useEffect(() => {
+        fetch('http://localhost:8080/board/post/update/' + id)
+            .then(response => response.json())
+            .then(data => {
+                setPost(data);
+            });
+    }, []);
+
     const changeValue = (e) => {
-        setPost({
-            ...post,
+        setPost(prevPost =>({
+            ...prevPost,
             [e.target.name]: e.target.value,
-        });
+        }));
         setErrors({...errors, [e.target.name]: ''})
     };
 
     const changeValueQuill = (value) => {
-        setPost({
-            ...post,
+        setPost(prevPost =>({
+            ...prevPost,
             content: value,
-        });
+        }));
         setErrors({...errors, content: ''})
     };
-
-    useEffect(() => {
-        const token =localStorage.getItem('token');
-        const decode = jwtDecode(token)
-        setPost(prevState => ({
-            ...prevState,
-            username: decode.sub,
-            userId: decode.userId
-        }))
-    }, []);
 
     const Submit = (e) => {
         e.preventDefault();
@@ -55,40 +49,37 @@ const Write = () => {
         if( !post.category.trim()) {
             isValid = false ;
             setErrors({...errors, category: ' 필수 선택입니다.'});
-            return;
         } else if (!post.subject.trim()) {
             isValid = false;
             setErrors({...errors, subject: ' 필수 입력입니다.'});
-            return;
         } else if (!post.content.trim() || post.content.trim() == "<p><br></p>") {
             isValid = false;
             setErrors({...errors, content: ' 필수 입력입니다.'});
-            return;
         }
 
-        fetch("http://localhost:8080/board/post/save", {
-            method: "POST",
+        fetch("http://localhost:8080/board/post/update", {
+            method: "PUT",
             headers: {'Content-Type': 'application/json;charset=utf-8'},
             body: JSON.stringify(post)
         })
             .then(response => response.json())
             .then(data => {
                 if(data !== null) {
-                    alert("작성 성공")
+                    alert("수정 성공")
                     navigate(`/board/post/${data.id}`)
                 } else {
-                    alert('등록 실패!');
+                    alert('수정 실패!');
                 }
             })
     };
 
     return (
-        <Container fluid className="col-md-7">
-            <H2>글 쓰기</H2><hr/>
+        <Container fluid>
+            <H2>{id}번 글 수정</H2><hr/>
             <Form onSubmit={Submit}>
                 <Form.Group className="mb-3" controlId="formBasicCategory">
                     <Form.Label>카테고리</Form.Label>{errors.category && <span className='text-danger'>{errors.category}</span>}
-                    <Form.Control as="select" name='category' onChange={changeValue}>
+                    <Form.Control as="select" name='category' onChange={changeValue} value={post.category}>
                         <option defaultValue=""> -- 필수로 선택하세요 -- </option>
                         <option value="일반">일반</option>
                         <option value="질문">질문</option>
@@ -103,47 +94,61 @@ const Write = () => {
                         placeholder="제목 입력"
                         onChange={changeValue}
                         name='subject'
+                        value={post.subject}
                     />
                 </Form.Group>
+
                 <Form.Group>
-                <Form.Label>내용</Form.Label>{errors.content && <span className='text-danger'>{errors.content}</span>}
-                <ReactQuill
-                    style={{height: '50vh'}}
-                    name='content'
-                    onChange={changeValueQuill}
-                    theme='snow'
-                    modules={{
-                        toolbar: [
-                            [{ 'font': [] }, { 'size': [] }],
-                            ['bold', 'italic', 'underline', 'strike'],
-                            [{ 'header': 1 }, { 'header': 2 }, 'blockquote'],
-                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                            [{ 'color': [] }, { 'background': [] }],
-                            [{ 'align': [] }],
-                            ['link'],
-                            ['code-block'],
-                        ],
-                    }}>
-                </ReactQuill>
+                    <Form.Label>내용</Form.Label>{errors.content && <span className='text-danger'>{errors.content}</span>}
+                    <ReactQuill
+                        style={{height: '50vh'}}
+                        name='content'
+                        onChange={changeValueQuill}
+                        theme='snow'
+                        value={post.content}
+                        modules={{
+                            toolbar: [
+                                [{ 'font': [] }, { 'size': [] }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                [{ 'header': 1 }, { 'header': 2 }, 'blockquote'],
+                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                [{ 'color': [] }, { 'background': [] }],
+                                [{ 'align': [] }],
+                                ['link'],
+                                ['code-block'],
+                            ],
+                        }}>
+                    </ReactQuill>
                 </Form.Group>
 
                 <Form.Group style={{marginTop: '8vh', display: 'flex', justifyContent: 'flex-end'}}>
-                    <Button variant='white' className="me-2 btn-outline-success" type="submit">
-                        작성완료
-                    </Button>
                     <Button
-                        variant='white' className="me-2 btn-outline-success"
+                        variant="white"
+                        className="btn btn-outline-success me-2"
                         onClick={() => {
                             navigate('/board/list');
                         }}
                     >
                         목록
                     </Button>
+                    <Button
+                        variant="white"
+                        className="btn btn-outline-success me-2"
+                        onClick={() => {navigate(-1)}}
+                    >
+                        이전
+                    </Button>
+                    <Button
+                        variant="white"
+                        className="btn btn-outline-success me-2"
+                        type='submit'
+                    >
+                        완료
+                    </Button>
                 </Form.Group>
             </Form>
         </Container>
     );
-
 };
 
-export default Write;
+export default Update;
