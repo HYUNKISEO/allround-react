@@ -40,6 +40,7 @@ const MyPage = () => {
         phone:'',
     });
     const [errors, setErrors] = useState({});
+
     const navigate = useNavigate();
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -182,7 +183,7 @@ const MyPage = () => {
                     {showForm && (
                         <Form className='mt-3'>
                             <Form.Group controlId='formContact'>
-                                <Form.Label>통신장치</Form.Label>{errors.phone && <span className='text-danger'>{errors.phone}</span>}
+                                <Form.Label>연락처</Form.Label>{errors.phone && <span className='text-danger'>{errors.phone}</span>}
                                 <Form.Control
                                     type='text'
                                     placeholder='숫자만 입력하세요.'
