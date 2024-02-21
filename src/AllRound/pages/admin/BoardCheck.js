@@ -13,7 +13,7 @@ const H2 = styled.h2`
 
 const BoardCheck = () => {
     const [posts, setPosts] = useState([]);
-    const [post, setPost] = useState(0);
+    const [post, setPost] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:8080/board/post/admin`, {
@@ -36,10 +36,21 @@ const BoardCheck = () => {
         <Container fluid>
             <Row>
                 <Col className='col-6'>
-                    <H2>{post}번 글 정보</H2><hr/>
-                    <div style={{ overflowY: "scroll", height: '79vh' }}>
-                    {post && <Detailprops id={post} />}
-                    </div>
+                    {post !== null ? (
+                        <>
+                            <H2>{post}번 글 정보</H2><hr/>
+                            <div style={{ overflowY: "scroll", height: '79vh' }}>
+                                {/* 게시글 정보 로딩 중이면 로딩 메시지 표시 */}
+                                {post && <Detailprops id={post} />}
+                            </div>
+                        </>
+                    ) : (
+                        <div style={{marginTop: '30vh', fontWeight: 'bold', fontSize: "3vh", color: 'darkgreen', textAlign: 'end'}}>
+                            <div>➤➤</div>
+                            <div>우측에서 선택하세요</div>
+                            <div>➤➤</div>
+                        </div>
+                    )}
                 </Col>
 
                 <Col className='col-6'>

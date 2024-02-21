@@ -13,6 +13,7 @@ import Write from "./pages/board/Write";
 import Detail from "./pages/board/Detail";
 import Update from "./pages/board/Update";
 import Admin from "./pages/admin/Admin";
+import Tutorial from "./pages/tutorial/Tutorial";
 
 const Allround = () => {
     return (
@@ -30,6 +31,7 @@ const Allround = () => {
                 <Route path='/board/post/:id' element={<AuthCheck><Detail/></AuthCheck>}/>
                 <Route path='/board/update/:id' element={<AuthCheck><Update/></AuthCheck>}/>
                 <Route path='/admin' element={<AuthCheck><Admin/></AuthCheck>}/>
+                <Route path='/tutorial' element={<AuthCheck><Tutorial/></AuthCheck>}/>
             </Routes>
         </div>
     );
