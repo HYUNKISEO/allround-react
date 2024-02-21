@@ -47,7 +47,7 @@ const Header = () => {
                         <Link to='/testinfo/book' className='dropdown-item'>최신서적</Link>
                         {/* 다른 시험과 관련된 링크들 추가 가능 */}
                     </NavDropdown>
-                    <Link to='/yotube' className='nav-link'>강의</Link>
+                    <Link to='/tutorial' className='nav-link'>강의</Link>
                 </Nav>
                 <Nav>
                     {user.auth === "ROLE_ADMIN,ROLE_MEMBER" && <Nav.Link as={Link} to='/admin' className='nav-link'>관리자 페이지</Nav.Link>}

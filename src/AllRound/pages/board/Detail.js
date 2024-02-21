@@ -66,10 +66,9 @@ const Detail = () => {
         })
             .then(response => response.json())
             .then(data => {
-                if(data != null){
-                    alert("작성 성공")
-                    setReset(data)
-                }
+                alert("작성 성공")
+                setReset(data)
+                setComment({ text: '' });
             })
     }
 
@@ -218,7 +217,7 @@ const Detail = () => {
                     <label>댓글: <span><strong>{comments.length}</strong></span> 개</label>
 
                     <div className="input-group my-2">
-                        <Form.Control type="text" name="text" onChange={changeValue}/>
+                        <Form.Control type="text" name="text" onChange={changeValue} value={comment.text || ''}/>
                         <button type="button" className="btn btn-outline-primary" id="btn_comment" onClick={submit}>작성</button>
                     </div>
 
