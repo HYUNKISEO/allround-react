@@ -18,6 +18,15 @@ const Header = () => {
         } else {
             setLoggedIn(false)
         }
+
+        // 15초마다 실행될 작업
+        const intervalId = setInterval(() => {
+            // 여기에 수행할 작업을 넣으세요.
+            console.log('작업 실행');
+        }, 10000);
+
+        // 컴포넌트가 언마운트될 때 clearInterval로 인터벌을 정리합니다.
+        return () => clearInterval(intervalId);
     }, [loggedIn]);
 
     const logout = () => {
@@ -42,7 +51,7 @@ const Header = () => {
                     <Link to='/basic' className='nav-link'>기본문제</Link>
                     <Link to='/share/list' className='nav-link'>공유문제</Link>
                     <Link to='/board/list' className='nav-link'>게시판</Link>
-                    <NavDropdown title='시험정보' id='exam-dropdown'>
+                    <NavDropdown title='시험정보' id='exam-dropdown' style={{zIndex: "1000"}}>
                         <Link to='/testinfo' className='dropdown-item'>일정정보</Link>
                         <Link to='/testinfo/book' className='dropdown-item'>최신서적</Link>
                     </NavDropdown>
