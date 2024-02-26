@@ -28,7 +28,6 @@ const UserCheck = () => {
             .then(response => response.json())
             .then(data => setUsers(data))
     }, [user]);
-    console.log(user)
 
     const detailCheck = (id) => {
         fetch("http://localhost:8080/user/detail/" + id, {
@@ -90,6 +89,7 @@ const UserCheck = () => {
     };
 
     const removeUser = (id) => {
+        if(window.confirm("정말로 삭제하시겠습니까?")){
         fetch("http://localhost:8080/user/delete/" + id, {
             method: "DELETE",
         })
@@ -100,7 +100,7 @@ const UserCheck = () => {
                 } else {
                     alert('삭제실패', data);
                 }
-            });
+            });}
     }
 
     return (

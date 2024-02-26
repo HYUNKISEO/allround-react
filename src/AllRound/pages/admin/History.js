@@ -13,7 +13,6 @@ const H2 = styled.h2`
 const History = () => {
     const [history, setHistory] = useState([])
     const [selectedType, setSelectedType] = useState(''); // 추가된 부분
-
     const fetchHistoryData = () => {
         fetch("http://localhost:8080/history/list", {
             headers: {'Content-Type': 'application/json;charset=utf-8'},
@@ -42,7 +41,8 @@ const History = () => {
             case '기본문제': return '#f3c4f7';
             case '공유문제': return '#a0c8e0';
             case '유저': return '#f8b7b1';
-            default: return '#ffd966';
+            case '추천누적': return '#ffd966';
+            default: return ;
         }
     }
 

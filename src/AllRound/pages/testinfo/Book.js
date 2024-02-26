@@ -63,7 +63,7 @@ const Book = () => {
 
             <Container fluid className="d-flex flex-wrap justify-content-center">
                 {books.map((book, index) => (
-                    <div key={index} className="col-md-2 m-4 text-center" >
+                    <div key={index} className="col-md-2 m-4 text-center" style={{cursor: 'pointer'}}>
                         <Card onClick={() => openModal(book)}>
                             <CardImg variant='top' src={book.image}/>
                             <Card.Body className="text-center">

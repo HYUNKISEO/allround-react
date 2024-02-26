@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import {json, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Button, Container, Form} from "react-bootstrap";
 import {jwtDecode} from "jwt-decode";
 import "react-quill/dist/quill.snow.css";
