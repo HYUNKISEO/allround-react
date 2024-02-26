@@ -39,21 +39,20 @@ const Header = () => {
                 <NavbarToggle aria-controls="navbar-nav" />
                 <NavbarCollapse id="navbar-nav">
                 <Nav className='me-auto'>
-                    <Link to='/basic' className='nav-link'>기본</Link>
-                    <Link to='/share' className='nav-link'>공유</Link>
+                    <Link to='/basic' className='nav-link'>기본문제</Link>
+                    <Link to='/share/list' className='nav-link'>공유문제</Link>
                     <Link to='/board/list' className='nav-link'>게시판</Link>
-                    <NavDropdown title='시험' id='exam-dropdown'>
+                    <NavDropdown title='시험정보' id='exam-dropdown'>
                         <Link to='/testinfo' className='dropdown-item'>일정정보</Link>
                         <Link to='/testinfo/book' className='dropdown-item'>최신서적</Link>
-                        {/* 다른 시험과 관련된 링크들 추가 가능 */}
                     </NavDropdown>
-                    <Link to='/tutorial' className='nav-link'>강의</Link>
+                    <Link to='/tutorial' className='nav-link' style={{zIndex: "1000"}}>강의정보</Link>
                 </Nav>
                 <Nav>
-                    {user.auth === "ROLE_ADMIN,ROLE_MEMBER" && <Nav.Link as={Link} to='/admin' className='nav-link'>관리자 페이지</Nav.Link>}
+                    {user.auth === "ROLE_ADMIN,ROLE_MEMBER" && <Nav.Link as={Link} to='/admin' className='nav-link' style={{zIndex: "1000"}}>관리자 페이지</Nav.Link>}
                     {loggedIn ? (
                         <>
-                            <NavbarText className='text-white' onClick={GoMyPage}  style={{ cursor: 'pointer' }}>{`${user.name}님 환영합니다👋`}</NavbarText>
+                            <NavbarText className='text-white' onClick={GoMyPage}  style={{ cursor: 'pointer' }}>{`${user.sub}님 환영합니다👋`}</NavbarText>
                             <Nav.Link onClick={logout}>로그아웃</Nav.Link>
                         </>
                     ) : (

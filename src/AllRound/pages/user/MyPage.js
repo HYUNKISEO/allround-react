@@ -137,6 +137,7 @@ const MyPage = () => {
     }
 
     const removeUser = () => {
+        if(window.confirm("정말로 삭제하시겠습니까?")){
         fetch("http://localhost:8080/user/delete/" + user.id, {
             method: "DELETE",
         })
@@ -150,7 +151,7 @@ const MyPage = () => {
                 } else {
                     alert('삭제실패', data);
                 }
-            });
+            });}
     }
 
     return (
