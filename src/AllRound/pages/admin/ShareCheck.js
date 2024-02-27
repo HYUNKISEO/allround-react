@@ -70,8 +70,6 @@ const ShareCheck = () => {
         setName(name);
     };
 
-
-    console.log(questions)
     return (
         <Container fluid style={{display: "flex", marginTop: "10px"}}>
             <div style={{flex: "1", border: "solid 1px blue", overflowY: "scroll", height: '79vh'}}>

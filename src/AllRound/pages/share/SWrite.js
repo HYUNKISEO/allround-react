@@ -65,7 +65,6 @@ const SWrite = () => {
             .then(response => response.json())
             .then(data => {
                 navigate('/share/detail/' + data.id)
-                console.log(data)
 
             })
     }
