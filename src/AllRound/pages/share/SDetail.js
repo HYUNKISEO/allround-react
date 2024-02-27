@@ -153,7 +153,6 @@ const SDetail = () => {
             .then(response => response.json())
             .then(data => {
                 setCheckA(true);
-                console.log(data)
             })
     }
     const handleClose = () => {
@@ -161,7 +160,7 @@ const SDetail = () => {
     }
 
     const checkDelete = (decode.auth === 'ROLE_ADMIN' || question.userId === decode.userId);
-    console.log(decode)
+
     return (
         <>
         <Container fluid >
