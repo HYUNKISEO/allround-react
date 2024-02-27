@@ -30,7 +30,7 @@ const AuthCheck = ({children}) => {
                 if (remainingTime <= 600 && remainingTime > 0) {
                     // 로그아웃까지 10분 이하일 때
                     const extendLogout = window.confirm(`로그아웃 까지 ${minute}분 ${formattedSeconds}초 남았습니다. 연장하시겠습니까?`);
-                    if (extendLogout) {
+                    if (extendLogout && decodedToken.exp > now) {
                         fetch('http://localhost:8080/api/refresh-token', {
                             method: 'POST',
                             headers: {

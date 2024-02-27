@@ -285,7 +285,7 @@ const MyPage = () => {
                                     {question.map(q => (
                                         <tr key={q.id}>
                                             <td>{q.id}</td>
-                                            <td><Link to={`/board/post/${q.id}`}>{q.question}</Link></td>
+                                            <td><Link to={`/share/detail/${q.id}`}>{q.question}</Link></td>
                                             <td>{q.viewCnt}</td>
                                             <td>{q.createTime}</td>
                                         </tr>
