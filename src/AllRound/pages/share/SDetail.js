@@ -15,9 +15,6 @@ const H2 = styled.h2`
 const SDetail = () => {
     const token = localStorage.getItem('token')
     const decode = jwtDecode(token)
-    const checkId = decode.auth = 'ROLE_ADMIN' || (question.userId === decode.sub)
-    const checkId2 = decode.auth = 'ROLE_ADMIN' || (comments.map(c => (c.userId === decode.sub)))
-
     const {id} = useParams();
     const [question, setQuestion] = useState([]);
     const [comments, setComments] = useState([]);
@@ -163,6 +160,8 @@ const SDetail = () => {
         setCheckA(false);
     }
 
+    const checkDelete = (decode.auth === 'ROLE_ADMIN' || question.userId === decode.userId);
+    console.log(decode)
     return (
         <>
         <Container fluid >
@@ -245,8 +244,8 @@ const SDetail = () => {
                          />
                         </div>
                         )}
-                        <Button className='btn-success' style={{width: '100%'}} onClick={() => saveCode()}>정답 저장하고 비교하기</Button>
-                        {checkId && <Button className='btn-danger' style={{width: '97vh'}} onClick={() => {deletePost()}}>삭제</Button>}
+                        {(question.userId != decode.userId && !checkDelete) && <Button className='btn-success' style={{width: '100%'}} onClick={() => saveCode()}>정답 저장하고 비교하기</Button>}
+                        {checkDelete && <Button className='btn-danger' style={{width: '97vh'}} onClick={() => {deletePost()}}>삭제</Button>}
                     </div>
                 </Col>
             </Row>
@@ -276,7 +275,7 @@ const SDetail = () => {
                         <td>{c.username}</td>
                         <td>{c.text}</td>
                         <td>{c.createTime}</td>
-                        {checkId2 && (<td><Button type="button" className="btn btn-danger btn-sm" onClick={() => deleteComment(c.id)}>삭제</Button></td>)}
+                        {(c.username === decode.sub || decode.auth === "ROLE_ADMIN,ROLE_MEMBER") && (<td><Button type="button" className="btn btn-danger btn-sm" onClick={() => deleteComment(c.id)}>삭제</Button></td>)}
                     </tr>
                 ))}
                 </tbody>

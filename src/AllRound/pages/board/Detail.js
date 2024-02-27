@@ -108,8 +108,7 @@ const Detail = () => {
 
     const token = localStorage.getItem('token')
     const decode = jwtDecode(token)
-    const checkId = decode.auth = 'ROLE_ADMIN' || (post.userId === decode.userId)
-    const checkId2 = decode.auth = 'ROLE_ADMIN' || (comments.map(c => (c.userId === decode.userId)))
+    const checkId = decode.auth === "ROLE_ADMIN,ROLE_MEMBER" || (post.userId === decode.userId)
 
     return (
         <div>
@@ -236,7 +235,7 @@ const Detail = () => {
                                 <td>{c.username}</td>
                                 <td>{c.text}</td>
                                 <td>{c.createTime}</td>
-                                {checkId2 && (<td><Button type="button" className="btn btn-danger btn-sm" onClick={() => deleteComment(c.id)}>삭제</Button></td>)}
+                                {(c.userId === decode.userId || decode.auth === "ROLE_ADMIN,ROLE_MEMBER") && (<td><Button type="button" className="btn btn-danger btn-sm" onClick={() => deleteComment(c.id)}>삭제</Button></td>)}
                             </tr>
                         ))}
                         </tbody>
