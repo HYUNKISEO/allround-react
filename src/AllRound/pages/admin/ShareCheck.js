@@ -71,7 +71,7 @@ const ShareCheck = () => {
     };
 
 
-    console.log(question)
+    console.log(questions)
     return (
         <Container fluid style={{display: "flex", marginTop: "10px"}}>
             <div style={{flex: "1", border: "solid 1px blue", overflowY: "scroll", height: '79vh'}}>
@@ -170,7 +170,7 @@ const ShareCheck = () => {
                         <tr key={v.id} onClick={() =>  setIdAndName(v.id, v.user.name)}>
                             <td>{v.id}</td>
                             <td>{v.question}</td>
-                            <td>{v.user.usernam}</td>
+                            <td>{v.user.username}</td>
                             <td>{v.create_time}</td>
                         </tr>
                     ))}
