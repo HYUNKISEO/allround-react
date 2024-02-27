@@ -2,11 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {Button, Container, Table} from "react-bootstrap";
 import {jwtDecode} from "jwt-decode";
 import {Link, useNavigate} from "react-router-dom";
+import styled from "styled-components";
+
+const H2 = styled.h2`
+  margin-top: 1.5vh;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+`;
 
 const SList = () => {
     const [question, setQuestion] = useState([]);
     const [recommendedMap, setRecommendedMap] = useState({});
     const [like, setLike] = useState({});
+    const [sortOption, setSortOption] = useState('기본');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -78,9 +87,50 @@ const SList = () => {
         }
     };
 
+    const handleSortChange = (event) => {
+        setSortOption(event.target.value);
+    };
+
+    const sortQuestions = () => {
+        let sortedQuestions = [...question];
+
+        if (sortOption === '조회순') {
+            sortedQuestions.sort((a, b) => b.viewCnt - a.viewCnt);
+        } else if (sortOption === '추천순') {
+            sortedQuestions.sort((a, b) => {
+                // 만약 추천 수가 같으면 id를 최신순으로 정렬
+                if (b.likeCnt !== a.likeCnt) {
+                    return b.likeCnt - a.likeCnt;
+                }
+                return b.id - a.id; // 추천 수가 같으면 id를 최신순으로 정렬
+            });
+        } else {
+            sortedQuestions.sort((a, b) => b.id - a.id)
+        }
+
+        setQuestion(sortedQuestions);
+    };
+
+    useEffect(() => {
+        sortQuestions();
+    }, [sortOption]);
+
+
 
     return (
         <Container fluid>
+            <H2>공유문제 리스트</H2><hr/>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {question.length > 0 && <p>총 게시물: <strong>{question.length}</strong></p>}
+                <span>
+                        <span>정렬: </span>
+                         <select value={sortOption} onChange={handleSortChange}>
+                            <option value="">기본</option>
+                            <option value="조회순">조회순</option>
+                            <option value="추천순">추천순</option>
+                         </select>
+                </span>
+            </div>
             <Table className='table text-center align-middle mt-3' >
                 <thead>
                 <tr>
