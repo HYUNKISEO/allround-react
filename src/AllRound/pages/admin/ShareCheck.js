@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Container, Table} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
+import styled from "styled-components";
+
+const H2 = styled.h2`
+  margin-top: 1.5vh;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+`;
 
 const ShareCheck = () => {
     const [question, setQuestion] = useState([]);
@@ -72,7 +80,8 @@ const ShareCheck = () => {
 
     return (
         <Container fluid style={{display: "flex", marginTop: "10px"}}>
-            <div style={{flex: "1", border: "solid 1px blue", overflowY: "scroll", height: '79vh'}}>
+            <div style={{flex: "1", overflowY: "scroll", height: '79vh'}}>
+                <H2>{question.id}문제 정보</H2><hr/>
                 <Table className='table-bordered'>
                     <tbody>
                     <tr>
@@ -153,7 +162,8 @@ const ShareCheck = () => {
                 <Button className='btn btn-success mt-4' style={{width: '100%'}} onClick={() => navigate('/share/detail/' + question.id)}>상세페이지</Button>
                 <Button className='btn btn-danger mt-2' style={{width: '100%'}} onClick={() => deleteQuestion(question.id)}>삭제하기</Button>
             </div>
-            <div style={{flex: "1" ,border: "solid 1px red", overflowY: "scroll", height: '79vh'}}>
+            <div style={{flex: "1" , overflowY: "scroll", height: '79vh'}}>
+                <H2>공유문제 리스트</H2><hr/>
                 <Table>
                     <thead className='table-success'>
                     <tr>
