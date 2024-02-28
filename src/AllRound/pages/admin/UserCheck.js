@@ -61,7 +61,7 @@ const UserCheck = () => {
 
     const handleChange = (e) => {
         setFormData({
-            ...formData,
+            ...user,
             [e.target.name]: e.target.value,
             id:user.id,
         });
