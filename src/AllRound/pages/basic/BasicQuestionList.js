@@ -49,14 +49,13 @@ const BasicQuestionList = () => {
     };
 
     return (
-        <Container>
+        <Container fluid>
             <h1 className="text-center my-4">문제 목록</h1>
             <Table striped bordered hover>
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th>번호</th>
                     <th>제목</th>
-                    <th>설명</th>
                     <th>입력 예시</th>
                     <th>출력 예시</th>
                 </tr>
@@ -64,9 +63,8 @@ const BasicQuestionList = () => {
                 <tbody>
                 {questions.map((question, index) => (
                     <tr key={question.questionId}>
-                        <td>{(pageNumber - 1) * pageSize + index + 1}</td>
-                        <td><Link to={`/basic/question/save/${question.questionId}`}>{question.title}</Link></td>
-                        <td>{question.description}</td>
+                        <td>{question.title}</td>
+                        <td><Link to={`/basic/question/save/${question.questionId}`}>{question.description}</Link></td>
                         <td>{question.example_Input}</td>
                         <td>{question.example_Output}</td>
                     </tr>

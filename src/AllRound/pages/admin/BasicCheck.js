@@ -115,7 +115,7 @@ const BasicCheck = () => {
                     <Button className='btn-success mt-3' style={{width:"100%"}} onClick={() => formChange()}>작성하기</Button>
                     <Button className='btn-danger mt-3' style={{width:"100%"}} onClick={() => deleteQuestion(id)}>삭제하기</Button>
             </div>}
-            {showForm && <div style={{flex: "1.2", overflowY: "scroll", height: '79vh'}}>
+            {showForm && <div style={{flex: "1.2", height: '79vh', marginRight: "3vh"}}>
                 <H2>문제 추가하기</H2><hr/>
                 <Form onSubmit={submit}>
                     <Form.Group controlId="formTitle">
