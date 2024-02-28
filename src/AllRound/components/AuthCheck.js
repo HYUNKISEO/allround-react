@@ -9,7 +9,6 @@ const AuthCheck = ({children}) => {
         const token = localStorage.getItem('token');
         if (!token) {
             // 토큰이 없으면 로그인 페이지로 이동
-            window.location.reload();
             navigate('/user/login');
         } else {
             try {
