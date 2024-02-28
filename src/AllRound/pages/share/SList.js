@@ -20,26 +20,28 @@ const SList = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const decode = jwtDecode(token);
+        if(token) {
+            const decode = jwtDecode(token);
 
-        fetch("http://localhost:8080/share/question/list", {
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setQuestion(data)
-                data.forEach(item => {
-                    if (item.userIds && item.userIds.includes(decode.userId)) {
-                        setRecommendedMap((prev) => ({
-                            ...prev,
-                            [item.id]: true,
-                        }));
-                        setLike(item.id)
-                    }
-                })
+            fetch("http://localhost:8080/share/question/list", {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                },
             })
+                .then(response => response.json())
+                .then(data => {
+                    setQuestion(data)
+                    data.forEach(item => {
+                        if (item.userIds && item.userIds.includes(decode.userId)) {
+                            setRecommendedMap((prev) => ({
+                                ...prev,
+                                [item.id]: true,
+                            }));
+                            setLike(item.id)
+                        }
+                    })
+                })
+        }
     }, [like]);
 
     const handleRecommendationToggle = (id, recommended) => {

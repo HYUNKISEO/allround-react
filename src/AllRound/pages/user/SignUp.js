@@ -57,8 +57,12 @@ const SignUp = () => {
         })
             .then(response => response.json())
             .then(data => {
-                alert("회원가입 성공!")
-                navigate("/user/login")
+                if(data.error) {
+                    alert(`${data.message}`)
+                }else {
+                    alert("회원가입 성공!")
+                    navigate("/user/login")
+                }
             })
             .catch(error => {
                 alert("아이디 중복입니다. 다른 아이디를 활용해 주세요.")
