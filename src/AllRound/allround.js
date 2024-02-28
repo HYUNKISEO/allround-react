@@ -18,6 +18,8 @@ import SList from "./pages/share/SList";
 import SDetail from "./pages/share/SDetail";
 import SWrite from "./pages/share/SWrite";
 
+import BasicQuestionList from "./pages/basic/BasicQuestionList";
+import BasicQuestionWrite from "./pages/basic/BasicQuestionWrite";
 const Allround = () => {
     return (
         <div>
@@ -38,6 +40,12 @@ const Allround = () => {
                 <Route path='/share/list' element={<AuthCheck><SList/></AuthCheck>}/>
                 <Route path='/share/detail/:id' element={<AuthCheck><SDetail/></AuthCheck>}/>
                 <Route path='/share/write' element={<AuthCheck><SWrite/></AuthCheck>}/>
+                {/*기본문제리스트*/}
+                <Route path='/basic/question/list' element={<AuthCheck><BasicQuestionList/></AuthCheck>}/>
+                {/*/!*기본문제작성*!/*/}
+                <Route path='/basic/question/save/:questionId' element={<AuthCheck><BasicQuestionWrite/></AuthCheck>}/>
+
+
             </Routes>
         </div>
     );
