@@ -1,13 +1,23 @@
 
 .main {
-    background: linear-gradient(to right, #7a5afd 0%, #5dbdff 50%, #7a5afd 100%);
+    background: linear-gradient(to right, #009977, #3F72AF, #009977, #3F72AF, #009977);
     height: 94vh;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    background-size: 200% 100%;
+    animation: gradientAnimation  5s infinite 10s;
 }
 
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
 
 .container {
     position: relative;

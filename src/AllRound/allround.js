@@ -14,6 +14,10 @@ import Detail from "./pages/board/Detail";
 import Update from "./pages/board/Update";
 import Admin from "./pages/admin/Admin";
 import Tutorial from "./pages/tutorial/Tutorial";
+import SList from "./pages/share/SList";
+import SDetail from "./pages/share/SDetail";
+import SWrite from "./pages/share/SWrite";
+
 import BasicQuestionList from "./pages/basic/BasicQuestionList";
 import BasicQuestionWrite from "./pages/basic/BasicQuestionWrite";
 const Allround = () => {
@@ -33,6 +37,9 @@ const Allround = () => {
                 <Route path='/board/update/:id' element={<AuthCheck><Update/></AuthCheck>}/>
                 <Route path='/admin' element={<AuthCheck><Admin/></AuthCheck>}/>
                 <Route path='/tutorial' element={<AuthCheck><Tutorial/></AuthCheck>}/>
+                <Route path='/share/list' element={<AuthCheck><SList/></AuthCheck>}/>
+                <Route path='/share/detail/:id' element={<AuthCheck><SDetail/></AuthCheck>}/>
+                <Route path='/share/write' element={<AuthCheck><SWrite/></AuthCheck>}/>
                 {/*기본문제리스트*/}
                 <Route path='/basic/question/list' element={<AuthCheck><BasicQuestionList/></AuthCheck>}/>
                 {/*/!*기본문제작성*!/*/}

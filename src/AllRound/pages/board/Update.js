@@ -17,7 +17,6 @@ const Update = () => {
     const navigate = useNavigate();
     const [post, setPost] = useState([]);
     const [errors, setErrors] = useState({});
-    console.log(post)
 
     useEffect(() => {
         fetch('http://localhost:8080/board/post/update/' + id)

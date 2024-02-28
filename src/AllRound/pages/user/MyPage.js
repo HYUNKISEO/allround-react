@@ -39,6 +39,7 @@ const MyPage = () => {
         repassword: '',
         phone:'',
     });
+    const [question, setQuestion] = useState([]);
     const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
@@ -73,6 +74,12 @@ const MyPage = () => {
         })
             .then(reponse => reponse.json())
             .then(data => setPosts(data))
+
+        fetch("http://localhost:8080/share/question/mylist/" + decodedToken.userId, {
+            headers: {'Content-Type': 'application/json;charset=utf-8'}
+        })
+            .then(reponse => reponse.json())
+            .then(data => setQuestion(data))
     }, []);
 
     const handleShowForm = () => {
@@ -137,6 +144,7 @@ const MyPage = () => {
     }
 
     const removeUser = () => {
+        if(window.confirm("정말로 삭제하시겠습니까?")){
         fetch("http://localhost:8080/user/delete/" + user.id, {
             method: "DELETE",
         })
@@ -150,7 +158,7 @@ const MyPage = () => {
                 } else {
                     alert('삭제실패', data);
                 }
-            });
+            });}
     }
 
     return (
@@ -263,7 +271,28 @@ const MyPage = () => {
                     <Row>
                         <Col style={{ marginTop: '20px' }}>
                             <H2>나의 공유문제 목록</H2>
-                            {/* 문제 목록을 표시하는 부분 (추후 구현 필요) */}
+                            <div style={{height: "40vh", overflowY: "auto"}}>
+                                <Table className='text-center'>
+                                    <thead className='table-success' style={{ position: "sticky", top: "0", zIndex: "1" }}>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>제목</th>
+                                        <th>조회수</th>
+                                        <th>작성일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {question.map(q => (
+                                        <tr key={q.id}>
+                                            <td>{q.id}</td>
+                                            <td><Link to={`/share/detail/${q.id}`}>{q.question}</Link></td>
+                                            <td>{q.viewCnt}</td>
+                                            <td>{q.createTime}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </Table>
+                            </div>
                         </Col>
                     </Row>
                 </Col>
