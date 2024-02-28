@@ -48,7 +48,7 @@ const Header = () => {
                 <NavbarToggle aria-controls="navbar-nav" />
                 <NavbarCollapse id="navbar-nav">
                 <Nav className='me-auto'>
-                    <Link to='/basic/question/list' className='nav-link'>기본</Link>
+                    <Link to='/basic/question/list' className='nav-link'>기본문제</Link>
                     <Link to='/share/list' className='nav-link'>공유문제</Link>
                     <Link to='/board/list' className='nav-link'>게시판</Link>
                     <NavDropdown title='시험정보' id='exam-dropdown' style={{zIndex: "1000"}}>

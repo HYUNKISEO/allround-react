@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import MonacoEditor from 'react-monaco-editor';
 import { useParams } from 'react-router-dom';
 import './Write.css';
-import { jwtDecode } from 'jwt-decode'; // 수정: import 문 오타 수정
+import { jwtDecode } from 'jwt-decode';
+import MonacoEditor from "@monaco-editor/react"; // 수정: import 문 오타 수정
 
 const BasicQuestionWrite = () => {
 
