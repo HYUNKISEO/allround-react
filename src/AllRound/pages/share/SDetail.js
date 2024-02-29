@@ -159,7 +159,7 @@ const SDetail = () => {
         setCheckA(false);
     }
 
-    const checkDelete = (decode.auth === 'ROLE_ADMIN' || question.userId === decode.userId);
+    const checkDelete = (decode.auth === 'ROLE_ADMIN,ROLE_MEMBER');
 
     return (
         <>
@@ -206,9 +206,10 @@ const SDetail = () => {
                         </Form.Group>
                     </Form>
                         <Button style={{width: "100%"}} className='btn-success' onClick={() => navigate('/share/write')}>글 작성하러 가기</Button>
+                        <Button style={{width: "100%"}} className='btn-primary mt-1' onClick={() => navigate('/share/list')}>목록 돌아가기</Button>
                 </Col>
                 <Col md={6} style={{flex: '1', position: 'relative'}}>
-                    <div style={{width: '97vh', height: '81vh', display: 'flex', flexDirection: 'column', position: 'relative'}}>
+                    <div style={{width: '97vh', height: '85.6vh', display: 'flex', flexDirection: 'column', position: 'relative'}}>
                         <MonacoEditor
                             width="100%"
                             height={"100%"}
@@ -243,8 +244,8 @@ const SDetail = () => {
                          />
                         </div>
                         )}
-                        {(question.userId != decode.userId && !checkDelete) && <Button className='btn-success' style={{width: '100%'}} onClick={() => saveCode()}>정답 저장하고 비교하기</Button>}
-                        {checkDelete && <Button className='btn-danger' style={{width: '97vh'}} onClick={() => {deletePost()}}>삭제</Button>}
+                        {(question.userId !== decode.userId) && <Button className='btn-success' style={{width: '100%'}} onClick={() => saveCode()}>정답 저장하고 비교하기</Button>}
+                        {(question.userId === decode.userId || checkDelete) && <Button className='btn-danger mt-1' style={{width: '97vh'}} onClick={() => {deletePost()}}>삭제</Button>}
                     </div>
                 </Col>
             </Row>
