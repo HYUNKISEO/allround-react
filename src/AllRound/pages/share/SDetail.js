@@ -155,6 +155,7 @@ const SDetail = () => {
                 setCheckA(true);
             })
     }
+    console.log(userAnswer)
     const handleClose = () => {
         setCheckA(false);
     }
