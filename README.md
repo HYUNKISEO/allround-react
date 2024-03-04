@@ -1,5 +1,7 @@
 # 프로젝트명 : ALL_ROUND
 
+## [화면영상](https://www.youtube.com/watch?v=dg-0Nan8PDQ&list=PLedGoSru794_gV9NDzrzhk2PsJGThG23p&index=1)
+
 ## 개요 
 자바기반 코딩문제를 풀어볼 수 있는 문제제공 및 부족한 기본기를 채울 수 있는 강의와 목표의식을 가지게 하는 시험일정, 그리고 시험일정에 따른 책 추천, 게시판을 활용한 커뮤니티, 직접 문제를 만들어보고 유저들과 소통하는 공간까지 한번에 담은 사이트입니다.
 
