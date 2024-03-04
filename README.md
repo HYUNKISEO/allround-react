@@ -21,7 +21,7 @@ Java, JPA, RESTful API, SpringBoot, SpringSecurity, Scheduled, MySQL, EntityList
 
 https://github.com/HYUNKISEO/AllRound (Back-End)
 
-https://github.com/HYUNKISEO/allround... (Front-End)
+https://github.com/HYUNKISEO/allround-react (Front-End)
 
 ─────────────────────────
 
